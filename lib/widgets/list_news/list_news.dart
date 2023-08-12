@@ -177,115 +177,159 @@ class _ListNewsState extends State<ListNews> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: listBlogs
-          .map(
-            (e) => Padding(
-              padding: const EdgeInsets.only(bottom: 36),
-              child: Column(
-                children: [
-                  // user
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.white,
+    return ListView.builder(
+        itemCount: listBlogs.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 36),
+            child: Column(
+              children: [
+                // user
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 22,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage(listBlogs[index].avatarUrl),
                           radius: 22,
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage(e.avatarUrl),
-                            radius: 22,
-                          ),
                         ),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(left: paddingAvatarAndContent),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                e.fullName,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorThemeBuso.brown),
-                                ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: paddingAvatarAndContent),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              listBlogs[index].fullName,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorThemeBuso.brown),
                               ),
-                              Text(
-                                '@${e.userName}',
-                                style: const TextStyle(
-                                  color: Color(ColorThemeBuso.brown_70),
-                                ),
+                            ),
+                            Text(
+                              '@${listBlogs[index].userName}',
+                              style: const TextStyle(
+                                color: Color(ColorThemeBuso.brown_70),
                               ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  // content,
-                  Row(
+                ),
+                // content,
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: LayoutSize.sizeAvatar,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: paddingAvatarAndContent),
+                    ),
+                    Flexible(
+                      child: ReadMoreText(
+                        listBlogs[index].content,
+                        trimLines: 5,
+                        trimMode: TrimMode.Line,
+                        trimCollapsedText: 'More',
+                        trimExpandedText: 'Less',
+                        moreStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        lessStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // picture,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Row(
                     children: [
                       const SizedBox(
                         width: LayoutSize.sizeAvatar,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: paddingAvatarAndContent),
-                      ),
-                      Flexible(
-                        child: ReadMoreText(
-                          e.content,
-                          trimLines: 5,
-                          trimMode: TrimMode.Line,
-                          trimCollapsedText: 'More',
-                          trimExpandedText: 'Less',
-                          moreStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          lessStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: ListImage(
+                          listImage: listBlogs[index].listImage,
+                          sizeOther: paddingAvatarAndContent,
                         ),
                       ),
                     ],
                   ),
-                  // picture,
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: LayoutSize.sizeAvatar,
-                        ),
-                        Padding(
+                ),
+                // reaction,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: LayoutSize.sizeAvatar,
+                      ),
+                      Expanded(
+                        child: Padding(
                           padding:
                               EdgeInsets.only(left: paddingAvatarAndContent),
-                          child: ListImage(
-                            listImage: e.listImage,
-                            sizeOther: paddingAvatarAndContent,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // reaction,
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: LayoutSize.sizeAvatar,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(left: paddingAvatarAndContent),
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 80,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 24,
+                                      height: 24,
+                                      decoration: BoxDecoration(
+                                        color: listBlogs[index].isLike
+                                            ? const Color(ColorThemeBuso.red_35)
+                                            : Colors.transparent,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(100)),
+                                      ),
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                          'assets/icons/Favorite_fill.svg',
+                                          width: 18,
+                                          height: 18,
+                                          // ignore: deprecated_member_use
+                                          color: listBlogs[index].isLike
+                                              ? const Color(ColorThemeBuso.red)
+                                              : const Color(
+                                                  ColorThemeBuso.brown),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4),
+                                      child: Text(
+                                        listBlogs[index].totalLike.toString(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(ColorThemeBuso.brown),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: SizedBox(
                                   width: 80,
                                   child: Row(
                                     crossAxisAlignment:
@@ -294,32 +338,29 @@ class _ListNewsState extends State<ListNews> {
                                       Container(
                                         width: 24,
                                         height: 24,
-                                        decoration: BoxDecoration(
-                                          color: e.isLike
-                                              ? const Color(
-                                                  ColorThemeBuso.red_35)
-                                              : Colors.transparent,
-                                          borderRadius: const BorderRadius.all(
+                                        decoration: const BoxDecoration(
+                                          // color:
+                                          //     Color(ColorThemeBuso.blue_35),
+                                          borderRadius: BorderRadius.all(
                                               Radius.circular(100)),
                                         ),
                                         child: Center(
                                           child: SvgPicture.asset(
-                                            'assets/icons/Favorite_fill.svg',
-                                            width: 18,
-                                            height: 18,
+                                            'assets/icons/Chat_alt_3_fill.svg',
+                                            width: 20,
+                                            height: 20,
                                             // ignore: deprecated_member_use
-                                            color: e.isLike
-                                                ? const Color(
-                                                    ColorThemeBuso.red)
-                                                : const Color(
-                                                    ColorThemeBuso.brown),
+                                            color: const Color(
+                                                ColorThemeBuso.brown),
                                           ),
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 4),
                                         child: Text(
-                                          e.totalLike.toString(),
+                                          listBlogs[index]
+                                              .totalComment
+                                              .toString(),
                                           style: const TextStyle(
                                             fontWeight: FontWeight.w500,
                                             color: Color(ColorThemeBuso.brown),
@@ -329,131 +370,82 @@ class _ListNewsState extends State<ListNews> {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: SizedBox(
-                                    width: 80,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 24,
-                                          height: 24,
-                                          decoration: const BoxDecoration(
-                                            // color:
-                                            //     Color(ColorThemeBuso.blue_35),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(100)),
-                                          ),
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              'assets/icons/Chat_alt_3_fill.svg',
-                                              width: 20,
-                                              height: 20,
-                                              // ignore: deprecated_member_use
-                                              color: const Color(
-                                                  ColorThemeBuso.brown),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 4),
-                                          child: Text(
-                                            e.totalComment.toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  Color(ColorThemeBuso.brown),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: SizedBox(
-                                    width: 80,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 24,
-                                          height: 24,
-                                          decoration: BoxDecoration(
-                                            color: e.isSave
-                                                ? const Color(
-                                                    ColorThemeBuso.yellow_35)
-                                                : Colors.transparent,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(100)),
-                                          ),
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              'assets/icons/Bookmark_fill.svg',
-                                              width: 14,
-                                              height: 14,
-                                              // ignore: deprecated_member_use
-                                              color: e.isSave
-                                                  ? const Color(
-                                                      ColorThemeBuso.yellow)
-                                                  : const Color(
-                                                      ColorThemeBuso.brown),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 4),
-                                          child: Text(
-                                            e.totalSave.toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  Color(ColorThemeBuso.brown),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: SizedBox(
+                                  width: 80,
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
+                                      Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                          color: listBlogs[index].isSave
+                                              ? const Color(
+                                                  ColorThemeBuso.yellow_35)
+                                              : Colors.transparent,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(100)),
+                                        ),
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            'assets/icons/Bookmark_fill.svg',
+                                            width: 14,
+                                            height: 14,
+                                            // ignore: deprecated_member_use
+                                            color: listBlogs[index].isSave
+                                                ? const Color(
+                                                    ColorThemeBuso.yellow)
+                                                : const Color(
+                                                    ColorThemeBuso.brown),
+                                          ),
+                                        ),
+                                      ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 8),
-                                        child: SvgPicture.asset(
-                                          'assets/icons/Meatballs_menu.svg',
-                                          width: 30,
-                                          // ignore: deprecated_member_use
-                                          color: const Color(
-                                              ColorThemeBuso.primary),
+                                        padding: const EdgeInsets.only(left: 4),
+                                        child: Text(
+                                          listBlogs[index].totalSave.toString(),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(ColorThemeBuso.brown),
+                                          ),
                                         ),
                                       )
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/Meatballs_menu.svg',
+                                        width: 30,
+                                        // ignore: deprecated_member_use
+                                        color:
+                                            const Color(ColorThemeBuso.primary),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-          )
-          .toList(),
-    );
+          );
+        });
   }
 }

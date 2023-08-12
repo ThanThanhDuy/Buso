@@ -1,3 +1,4 @@
+import 'package:buso/features/chat/chat_detail/chat_detail.dart';
 import 'package:buso/features/main/main_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Poppins',
         ),
+        routes: <String, WidgetBuilder>{
+          '/chat_detail': (context) => const ChatDetail(),
+          '/main_screen': (context) => const MainScreen(),
+        },
         debugShowCheckedModeBanner: false,
       ),
       onTap: () {

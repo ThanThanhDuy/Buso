@@ -110,6 +110,7 @@ flutter:
       - assets/icons/Favorite.svg
       - assets/icons/Meatballs_menu.svg
       - assets/icons/Chat_alt_3_fill.svg
+      - assets/icons/Chat_plus.svg
       - assets/avatar/avatar1.avif
       - assets/avatar/avatar2.avif
       - assets/avatar/avatar3.avif

@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   bool _pressCreate = false;
 
   static const List<Widget> _widgetOptions = <Widget>[

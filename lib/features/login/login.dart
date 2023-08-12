@@ -127,7 +127,9 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     width: double.infinity,
                     child: CupertinoButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, '/main_screen');
+                      },
                       borderRadius:
                           BorderRadius.circular(BorderRadiusBuso.value),
                       color: const Color(ColorThemeBuso.primary),
